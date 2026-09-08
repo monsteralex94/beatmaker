@@ -1,10 +1,10 @@
-use std::fs;
 use std::env;
 use std::io;
 use std::error;
 
-mod beat;
+mod song;
 mod sample;
+mod file;
 
 fn main() -> Result<(), Box<dyn error::Error>> {
     let args: Vec<String> = env::args().collect();
@@ -12,14 +12,10 @@ fn main() -> Result<(), Box<dyn error::Error>> {
         return Err(io::Error::new(io::ErrorKind::Other, "Bad arguments").into());
     }
 
-    let contents = fs::read_to_string(&args[1])?;
-    let lines: Vec<&str> = contents.lines().collect();
+    let song = song::Song::deserialize(&args[1])?;
 
-    let mut sequence: Vec<Vec<bool>> = vec![vec![false; lines[0].len()]; lines.len()];
-    beat::read_sequence(&lines, &mut sequence);
-
-    let audio: Vec<(f64, f64)> = beat::write_sequence(&sequence)?;
-    sample::write_wav(&args[2], &audio)?;
+    let audio: Vec<(f64, f64)> = song.write()?;
+    file::write_wav(&args[2], &audio)?;
 
     Ok(())
 }
