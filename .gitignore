@@ -1,1 +1,6 @@
-/target
+/beatmaker/target
+/gui/__pycache__
+/examples
+/samples
+.venv
+.vscode
