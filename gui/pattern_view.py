@@ -3,8 +3,8 @@ import tkinter as tki
 import ttkbootstrap as ttk
 from tkinter import filedialog as fd
 
-from . import song
-from . import elements
+from gui import song
+from gui import elements
 
 
 class SampleGridButton(elements.GridButton):

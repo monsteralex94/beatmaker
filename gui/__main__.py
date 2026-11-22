@@ -1,10 +1,13 @@
 import tkinter as tki
 import ttkbootstrap as ttk
 from tkinter import filedialog as fd
+from tkinter import messagebox as msgbx
 
-from . import song
-from . import pattern_view
-from . import arrangement_view
+from gui import song
+from gui import pattern_view
+from gui import arrangement_view
+
+import beatmaker_backend
 
 
 class RootWindow(ttk.Window):
@@ -14,7 +17,7 @@ class RootWindow(ttk.Window):
                      'song': song.Song(),
                      'current_pattern_number': 0}
 
-        self.title('JULium Beat Editor')
+        self.title('Beatmaker')
         self.geometry('800x450')
 
         self.columnconfigure(0, weight=1)
@@ -32,6 +35,7 @@ class RootWindow(ttk.Window):
         file_menu = ttk.Menu(master=menubar)
         file_menu.add_command(label='Open', command=self.__open)
         file_menu.add_command(label='Save As...', command=self.__save_as)
+        file_menu.add_command(label='Export Audio...', command=self.__export_audio)
         file_menu.add_separator()
         file_menu.add_command(label='Exit', command=self.destroy)
         file_button.configure(menu=file_menu)
@@ -65,23 +69,40 @@ class RootWindow(ttk.Window):
 
     def __open(self):
         fptr = fd.askopenfile()
-        if fptr:
-            with fptr:
-                self.__gd['song'] = song.decode_json(fptr.read())
+        if not fptr: return
 
-                self.arrangement_frame.patterns.init_rows(len(self.__gd['song']['patterns']))
-                self.arrangement_frame.set_length_bars(self.__gd['song']['length_bars'])
+        with fptr:
+            self.__gd['song'] = song.decode_json(fptr.read())
 
-                self.pattern_frame.samples.init_rows(len(self.__gd['song']['patterns'][0]['sequenced_samples']))
-                self.pattern_frame.current_set_length_bars(len(self.__gd['song']['patterns'][0]['sequenced_samples'][0]['sequence'])//16)
+            self.arrangement_frame.patterns.init_rows(len(self.__gd['song']['patterns']))
+            self.arrangement_frame.set_length_bars(self.__gd['song']['length_bars'])
+
+            self.pattern_frame.samples.init_rows(len(self.__gd['song']['patterns'][0]['sequenced_samples']))
+            self.pattern_frame.current_set_length_bars(len(self.__gd['song']['patterns'][0]['sequenced_samples'][0]['sequence'])//16)
 
     def __save_as(self):
         fptr = fd.asksaveasfile()
-        if fptr:
-            with fptr:
-                fptr.write(song.encode_json(self.__gd['song']))
+        if not fptr: return
+
+        with fptr:
+            fptr.write(song.encode_json(self.__gd['song']))
+
+    def __export_audio(self):
+        fname = fd.asksaveasfilename()
+        if not fname: return
+
+        try:
+            beatmaker_backend.file.export(self.__gd['song'], fname)
+            msgbx.showinfo(f'Exported to "{fname}"', f'Exported to "{fname}"')
+        except RuntimeError as e:
+            msgbx.showerror(str(e), str(e))
+        
+
+def main():
+    ttk.set_global_family("Calibri")
+    app = RootWindow(themename='bootstrap-dark')
+    app.mainloop()
 
 
-ttk.set_global_family("Calibri")
-app = RootWindow(themename='bootstrap-dark')
-app.mainloop()
+if __name__ == '__main__':
+    main()

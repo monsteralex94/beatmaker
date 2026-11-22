@@ -1,6 +1,7 @@
-/beatmaker/target
+/target
 /gui/__pycache__
-/examples
 /samples
 .venv
 .vscode
+.github
+Cargo.lock
