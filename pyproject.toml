@@ -12,5 +12,9 @@ classifiers = [
 ]
 dynamic = ["version"]
 
+dependencies = [
+    "ttkbootstrap>=2.2.7"
+]
+
 [project.scripts]
 beatmaker = "beatmaker.__main__:main"
