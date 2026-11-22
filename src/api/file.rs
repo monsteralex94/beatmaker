@@ -23,7 +23,6 @@ pub fn register(
 ) -> PyResult<()> {
     let file = PyModule::new(py, "file")?;
     file.add_function(wrap_pyfunction!(export, &file)?)?;
-    file.add_function(wrap_pyfunction!(test, &file)?)?;
     parent.add_submodule(&file)?;
 
     py.import("sys")?
