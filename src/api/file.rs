@@ -17,12 +17,6 @@ pub fn export(song: &Bound<'_, PyAny>, path: &str) -> PyResult<()> {
 }
 
 
-#[pyfunction]
-pub fn test() -> PyResult<()> {
-    println!("Hello World");
-    Ok(())
-}
-
 pub fn register(
     py: Python<'_>,
     parent: &Bound<'_, PyModule>,
