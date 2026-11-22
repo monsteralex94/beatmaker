@@ -24,7 +24,7 @@ class PatternMenu(ttk.Frame):
         self.grid_propagate(False)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
-        self.__button = ttk.Menubutton(master=self, text=f'Pattern {row}', bootstyle='secondary')
+        self.__button = ttk.Menubutton(master=self, text=f'Pattern {row}', bootstyle='neutral')
         button_menu = ttk.Menu(master=self)
         button_menu.add_command(label='Open', command=self.__open_pattern)
         button_menu.add_command(label='Rename')
@@ -208,7 +208,7 @@ class ArrangementFrame(ttk.Frame):
         self.__length_select_var.set(1)
         ttk.Label(master=self.__root_frame, text='Length (bars):').grid(column=0, row=0, sticky='nwes')
         length_select = ttk.Spinbox(master=self.__root_frame, from_=1, to=2**5, textvariable=self.__length_select_var,
-                                    command=self.__song_length_changed, bootstyle='primary')
+                                    command=self.__song_length_changed, bootstyle='neutral')
         length_select.grid(column=1, row=0, sticky='nws')
 
         self.patterns = PatternsList(song.START_SONG_LENGTH, self.__gd, master=self.__root_frame)

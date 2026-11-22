@@ -13,8 +13,6 @@ class GridButton(ttk.Button):
 
     def __get_bootstyle(self, on: bool):
         if on:
-            """ if self.even: return 'primary'
-            else: return 'secondary' """
             return 'secondary'
         else:
             if self.__even: return 'primary outline'

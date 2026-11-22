@@ -31,7 +31,7 @@ class RootWindow(ttk.Window):
         menubar.columnconfigure(3, weight=0)
         menubar.columnconfigure(4, weight=0)
 
-        file_button = ttk.Menubutton(master=menubar, text='File', bootstyle='secondary outline')
+        file_button = ttk.Menubutton(master=menubar, text='File', bootstyle='ghost')
         file_menu = ttk.Menu(master=menubar)
         file_menu.add_command(label='Open', command=self.__open)
         file_menu.add_command(label='Save As...', command=self.__save_as)
@@ -41,7 +41,7 @@ class RootWindow(ttk.Window):
         file_button.configure(menu=file_menu)
         file_button.grid(column=0, row=0)
 
-        edit_button = ttk.Menubutton(master=menubar, text='Edit', bootstyle='secondary outline')
+        edit_button = ttk.Menubutton(master=menubar, text='Edit', bootstyle='ghost')
         edit_menu = ttk.Menu(master=menubar)
         edit_button.configure(menu=edit_menu)
         edit_button.grid(column=1, row=0)
@@ -49,7 +49,7 @@ class RootWindow(ttk.Window):
         self.__tempo_select_var = tki.DoubleVar(value=song.START_TEMPO)
         ttk.Label(master=menubar, text='Tempo (BPM):').grid(column=3, row=0)
         tempo_spinbox = ttk.Spinbox(master=menubar, textvariable=self.__tempo_select_var, from_=1, to=999, increment=0.1,
-                                    command=self.__tempo_select_changed, bootstyle='secondary')
+                                    command=self.__tempo_select_changed, bootstyle='neutral')
         tempo_spinbox.grid(column=4, row=0)
 
         menubar.grid(column=0, row=0, sticky='nwes')

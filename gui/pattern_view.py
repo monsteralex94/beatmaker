@@ -29,7 +29,7 @@ class SampleMenu(ttk.Frame):
         self.grid_propagate(False)
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
-        self.__button = ttk.Menubutton(master=self, text='[Empty]', bootstyle='secondary')
+        self.__button = ttk.Menubutton(master=self, text='[Empty]', bootstyle='neutral')
         button_menu = ttk.Menu(master=self)
         button_menu.add_command(label='Select Sample', command=self.__select_sample)
         button_menu.add_separator()
@@ -227,14 +227,14 @@ class PatternFrame(ttk.Frame):
         self.__pattern_select_var.set(0)
         ttk.Label(master=self.__root_frame, text='Selected Pattern:').grid(column=0, row=0, sticky='nwes')
         pattern_select = ttk.Spinbox(master=self.__root_frame, from_=0, to=99, textvariable=self.__pattern_select_var,
-                                     command=self.__current_pattern_number_changed, bootstyle='primary')
+                                     command=self.__current_pattern_number_changed, bootstyle='neutral')
         pattern_select.grid(column=1, row=0, sticky='nws')
 
         self.__length_select_var = tki.IntVar()
         self.__length_select_var.set(1)
         ttk.Label(master=self.__root_frame, text='Length (bars):').grid(column=2, row=0, sticky='nwes')
         length_select = ttk.Spinbox(master=self.__root_frame, from_=1, to=2**5, textvariable=self.__length_select_var,
-                                    command=self.__current_pattern_length_changed, bootstyle='primary')
+                                    command=self.__current_pattern_length_changed, bootstyle='neutral')
         length_select.grid(column=3, row=0, sticky='nws')
 
         self.samples = SamplesList(16*song.START_PATTERN_LENGTH, self.__gd, master=self.__root_frame)
